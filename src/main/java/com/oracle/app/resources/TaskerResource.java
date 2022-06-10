@@ -2,6 +2,7 @@ package com.oracle.app.resources;
 
 
 import com.oracle.app.core.Task;
+import com.oracle.app.db.TaskRepository;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -18,6 +19,12 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class TaskerResource {
 
+    private final TaskRepository taskRepository;
+
+    public TaskerResource(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
+
     @GET
     public Response getActiveTasks() {
         List<String> tasks = Arrays.asList("Task 1", "Task 2", "Task 3");
@@ -26,6 +33,12 @@ public class TaskerResource {
 
     @POST
     public Response createTask(@NotNull @Valid Task task){
+        Task savedTask =null ;//taskRepository.save(task);
+        return Response.ok(savedTask).build();
+    }
+
+    @PUT
+    public Response updateTask(@NotNull @Valid Task task){
         return Response.ok().build();
     }
 

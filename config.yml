@@ -7,3 +7,17 @@ server:
     - type: http
       port: 8080
   adminConnectors: []
+database:
+  driverClass: oracle.jdbc.driver.OracleDriver
+  url: jdbc:oracle:thin:@localhost:1521/fidelio
+  user: fidelio
+  password: super
+  properties:
+    charSet: UTF-8
+    hibernate.dialect: org.hibernate.dialect.Oracle12cDialect
+    hibernate.hbm2ddl.auto: none
+  maxWaitForConnection: 1s
+  validationQuery: "SELECT 1 from dual"
+  minSize: 8
+  maxSize: 32
+  checkConnectionWhileIdle: false

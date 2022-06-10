@@ -1,18 +1,28 @@
 package com.oracle.app.core;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import javax.persistence.*;
 import java.beans.ConstructorProperties;
 import java.util.Date;
 
+@Entity
+@Table(name = "task")
+@NamedQuery(
+        name = "com.oracle.app.core.Task.findAll",
+        query = "SELECT t FROM Task t"
+)
 public class Task{
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name="description")
     private String description;
+
+    @Column(name="dueDate")
     private Date dueDate;
+
+    @Column(name="complete")
     private Boolean complete;
 
     @ConstructorProperties({"description", "dueDate","complete"})
@@ -20,6 +30,9 @@ public class Task{
         this.description = description;
         this.dueDate = dueDate;
         this.complete = complete;
+    }
+
+    public Task() {
     }
 
     public Long getId() {
@@ -30,33 +43,27 @@ public class Task{
         this.id = id;
     }
 
-    @JsonProperty("description")
     public String getDescription() {
         return description;
     }
 
-    @JsonCreator
-    public void setDescription(@JsonProperty("description") String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    @JsonProperty("dueDate")
     public Date getDueDate() {
         return dueDate;
     }
 
-    @JsonCreator
-    public void setDueDate(@JsonProperty("dueDate") Date dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
 
-    @JsonProperty("complete")
     public Boolean getComplete() {
         return complete;
     }
 
-    @JsonCreator
-    public void setComplete(@JsonProperty("complete") Boolean complete) {
+    public void setComplete(Boolean complete) {
         this.complete = complete;
     }
 }
