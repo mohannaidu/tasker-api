@@ -1,28 +1,29 @@
 package com.oracle.app.core;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.beans.ConstructorProperties;
 import java.util.Date;
 
-@Entity
-@Table(name = "task")
-@NamedQuery(
-        name = "com.oracle.app.core.Task.findAll",
-        query = "SELECT t FROM Task t"
-)
 public class Task{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="description")
+    @NotEmpty
+    @Size(min = 1, max = 1000)
+    @ColumnName("description")
     private String description;
 
-    @Column(name="dueDate")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @ColumnName("dueDate")
     private Date dueDate;
 
-    @Column(name="complete")
+    @NotNull
+    @ColumnName("complete")
     private Boolean complete;
 
     @ConstructorProperties({"description", "dueDate","complete"})

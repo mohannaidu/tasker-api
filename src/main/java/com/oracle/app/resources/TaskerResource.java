@@ -27,24 +27,42 @@ public class TaskerResource {
 
     @GET
     public Response getActiveTasks() {
-        List<String> tasks = Arrays.asList("Task 1", "Task 2", "Task 3");
-        return Response.ok(tasks).build();
+        return Response.ok(taskRepository.getAllActive()).build();
     }
 
     @POST
     public Response createTask(@NotNull @Valid Task task){
-        Task savedTask =null ;//taskRepository.save(task);
+        Long taskId = taskRepository.insert(task);
+        Task savedTask = taskRepository.findById(taskId);
         return Response.ok(savedTask).build();
     }
 
     @PUT
     public Response updateTask(@NotNull @Valid Task task){
-        return Response.ok().build();
+        Integer taskId = null;
+        if(taskRepository.findById(task.getId()) !=null) {
+            taskId = taskRepository.update(task);
+            if (taskId == 0)
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            else
+                return Response.ok(taskId).build();
+        }else{
+            return Response.status(Response.Status.NOT_FOUND).entity("Id not found").build();
+        }
     }
 
     @DELETE
     @Path("{id}")
     public Response deleteTask(@PathParam(value="id") @Min(0) @Max(Long.MAX_VALUE) Long id){
-        return Response.ok().build();
+        Integer taskId = null;
+        if(taskRepository.findById(id) !=null) {
+            taskId = taskRepository.deleteById(id);
+            if (taskId == 0)
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            else
+                return Response.ok().build();
+        }else{
+            return Response.status(Response.Status.NOT_FOUND).entity("Id not found").build();
+        }
     }
 }

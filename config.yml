@@ -10,7 +10,7 @@ server:
 database:
   driverClass: oracle.jdbc.driver.OracleDriver
   url: jdbc:oracle:thin:@localhost:1521/fidelio
-  user: fidelio
+  user: tasker
   password: super
   properties:
     charSet: UTF-8

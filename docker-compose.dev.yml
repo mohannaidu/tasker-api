@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: tasker-api-dev
+    image: tasker-api-dev
+    build:
+      context: .
+    ports:
+      - 3000:3000
